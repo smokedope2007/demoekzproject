@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Task
 
-# Register your models here.
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'status', 'owner', 'created_at')
+    list_filter = ('status', 'owner')
+    search_fields = ('title',)
