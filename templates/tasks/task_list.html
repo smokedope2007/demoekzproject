@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Мои задачи</h2>
+
+<a href="{% url 'tasks:create' %}">Создать задачу</a>
+
+<!-- Фильтр по статусу -->
+<div class="filters">
+    <a href="?">Все</a> |
+    <a href="?status=todo">Новые</a> |
+    <a href="?status=in_progress">В работе</a> |
+    <a href="?status=done">Выполнены</a>
+</div>
+
+{% if tasks %}
+    <ul>
+    {% for task in tasks %}
+        <li>
+            <a href="{% url 'tasks:detail' task.pk %}">{{ task.title }}</a>
+            <span>{{ task.get_status_display }}</span>
+            <span>{{ task.created_at|date:"d.m.Y" }}</span>
+            <a href="{% url 'tasks:update' task.pk %}">Редактировать</a>
+        </li>
+    {% endfor %}
+    </ul>
+    
+    <!-- Пагинация -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">← Назад</a>
+        {% endif %}
+        
+        <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Вперёд →</a>
+        {% endif %}
+    </div>
+{% else %}
+    <p>У вас пока нет задач.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ task.title }}</h2>
+
+<p><strong>Статус:</strong> {{ task.get_status_display }}</p>
+<p><strong>Описание:</strong> {{ task.description }}</p>
+<p><strong>Создано:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+<p><strong>Изменено:</strong> {{ task.updated_at|date:"d.m.Y H:i" }}</p>
+
+<a href="{% url 'tasks:list' %}">← К списку</a>
+<a href="{% url 'tasks:update' task.pk %}">Редактировать</a>
+<a href="{% url 'tasks:delete' task.pk %}">Удалить</a>
+{% endblock %}
